@@ -1,0 +1,7 @@
+site_name: template-python-project
+site_url: http://template-python-project.readthedocs.io/en/latest/
+nav:
+  - Home: index.md
+  - About: about.md
+theme:
+  name: material
