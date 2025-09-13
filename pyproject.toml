@@ -1,8 +1,8 @@
 [project]
-name = "template-python-project"
+name = "pokemanager"
 dynamic = ["version"]
-description = "A template python project."
-urls = { Documentation = "http://template-python-project.readthedocs.io/en/latest/", Source = "https://github.com/ethan-shanahan/template-python-project" }
+description = "A suit of tools for analysing Pokémon teams."
+urls = { Documentation = "http://pokemanager.readthedocs.io/en/latest/", Source = "https://github.com/ethan-shanahan/pokemanager" }
 authors = [{ name = "Ethan Shanahan", email = "ethan.shanahan@gmail.com" }]
 readme = "README.md"
 license = "GPL-3.0-or-later"
@@ -14,19 +14,19 @@ classifiers = [
     "Intended Audience :: End Users/Desktop",
     "Development Status :: 3 - Alpha"
 ]
-keywords = ["template", "python", "project"]
+keywords = ["pokemon", "analysis"]
 requires-python = ">=3.11"
 dependencies = []
 
 [project.scripts]
-foo = "template_python_project.cli:foo"
+foo = "pokemanager.cli:foo"
 
 # Build System
 [build-system]
 requires = ["setuptools>=64", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 [tool.setuptools_scm]
-version_file = "src/template_python_project/_version.py"
+version_file = "src/pokemanager/_version.py"
 
 [tool.pixi.workspace]
 channels = ["conda-forge"]
@@ -34,7 +34,7 @@ platforms = ["win-64", "linux-64"]
 
 # Dependencies
 [tool.pixi.pypi-dependencies]
-template_python_project = { path = ".", editable = true }
+pokemanager = { path = ".", editable = true }
 [tool.pixi.dependencies]
 ruff = "*"
 pyright = "*"

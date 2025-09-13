@@ -1080,6 +1080,12 @@ packages:
   - pkg:pypi/platformdirs?source=compressed-mapping
   size: 23653
   timestamp: 1756227402815
+- pypi: ./
+  name: pokemanager
+  version: 0.1.dev1+g60b809daf.d20250913
+  sha256: ce4996e8ae61271f9f6023cf343f1aef3f5add9b60e99b1fcc4ff3b0b02a0cc8
+  requires_python: '>=3.11'
+  editable: true
 - conda: https://conda.anaconda.org/conda-forge/noarch/pre-commit-4.3.0-pyha770c72_0.conda
   sha256: 66b6d429ab2201abaa7282af06b17f7631dcaafbc5aff112922b48544514b80a
   md5: bc6c44af2a9e6067dd7e949ef10cdfba
@@ -1388,12 +1394,6 @@ packages:
   license_family: MIT
   size: 18455
   timestamp: 1753199211006
-- pypi: ./
-  name: template-python-project
-  version: 0.1.1.dev5+gb88b46add.d20250912
-  sha256: 77b9f62de7a32ecbf5b5a506ba4eedb781ece511453ff6feb7f6ac38ff447682
-  requires_python: '>=3.11'
-  editable: true
 - conda: https://conda.anaconda.org/conda-forge/linux-64/tk-8.6.13-noxft_hd72426e_102.conda
   sha256: a84ff687119e6d8752346d1d408d5cf360dee0badd487a472aa8ddedfdc219e1
   md5: a0116df4f4ed05c303811a837d5b39d8
