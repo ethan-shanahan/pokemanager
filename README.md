@@ -5,7 +5,7 @@
 <img src="docs\assets\pokemanager-logo.svg" alt="Pokemanager Logo"></br>
 
 [![Release](https://img.shields.io/github/v/release/ethanshanahan/pokemanager?label=Release)](https://github.com/ethanshanahan/pokemanager/releases/latest)
-[![Docs](https://github.com/ethan-shanahan/pokemanager/actions/workflows/docs.yml/badge.svg)](https://ethan-shanahan.github.com/pokemanager/)
+[![Docs](https://github.com/ethan-shanahan/pokemanager/actions/workflows/docs.yml/badge.svg)](https://ethan-shanahan.github.io/pokemanager/)
 [![License](https://img.shields.io/github/license/ethan-shanahan/pokemanager?label=License)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 </div>
@@ -26,7 +26,7 @@
   - Nuzlocke playthroughs
   - Soullink Nuzlocke playthroughs
 
-Read all about what Pokemanager has to offer and how best to use it in the [documentation](https://ethan-shanahan.github.com/pokemanager/).
+Read all about what Pokemanager has to offer and how best to use it in the [documentation](https://ethan-shanahan.github.io/pokemanager/).
 
 ## Install
 
