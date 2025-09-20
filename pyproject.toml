@@ -1,7 +1,7 @@
 [project]
 name = "pokemanager"
 dynamic = ["version"]
-description = "A suit of tools for analysing Pokémon teams."
+description = "A suite of tools for analysing Pokémon teams."
 urls = { Documentation = "http://pokemanager.readthedocs.io/en/latest/", Source = "https://github.com/ethan-shanahan/pokemanager" }
 authors = [{ name = "Ethan Shanahan", email = "ethan.shanahan@gmail.com" }]
 readme = "README.md"
@@ -53,7 +53,7 @@ pypi-dependencies = { build = "*" }
 tasks = { build-dist = "python -m build" }
 [tool.pixi.feature.mkdocs]
 dependencies = { mkdocs = "*", mkdocs-material = "*" }
-tasks = { build-docs = "mkdocs build" }
+tasks = { build-docs = "mkdocs gh-deploy" }
 
 # Extra Environments
 [tool.pixi.environments]
