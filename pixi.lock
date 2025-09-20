@@ -1234,8 +1234,8 @@ packages:
   timestamp: 1756227402815
 - pypi: ./
   name: pokemanager
-  version: 0.1.dev13+geb4cb2b94.d20250920
-  sha256: 21fd6e627dbcc35d7aa1928d520002450eb9fbef4aa452cca5e0bc446e6b526a
+  version: 0.1.2.dev4+g854339c6b
+  sha256: 76f0cb19acdf5af1cfef0adf736b59cf6e71ff73539af30dc5b720af1b844b06
   requires_dist:
   - gspread
   requires_python: '>=3.11'
