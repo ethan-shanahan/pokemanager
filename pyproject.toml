@@ -53,7 +53,7 @@ pypi-dependencies = { build = "*" }
 tasks = { build-dist = "python -m build" }
 [tool.pixi.feature.mkdocs]
 dependencies = { mkdocs = "*", mkdocs-material = "*" }
-tasks = { build-docs = "mkdocs gh-deploy" }
+tasks = { build-docs = "mkdocs gh-deploy --force" }
 
 # Extra Environments
 [tool.pixi.environments]
