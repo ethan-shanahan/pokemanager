@@ -6,6 +6,7 @@ from typing import Any
 
 import gspread
 
+from pokemanager.typer import dual_score_map
 from pokemanager.utils import combinations
 
 
@@ -67,6 +68,10 @@ class Soul:
     lost: bool = False
     dead: bool = False
 
+    def get_types(self) -> frozenset[str]:
+        """Get the types of the soul as a frozenset."""
+        return frozenset((self.type1.lower(), self.type2.lower())) if self.type2 else frozenset((self.type1.lower(),))
+
 
 @dataclass(frozen=True)
 class Soullink:
@@ -126,8 +131,22 @@ class SlBox:
         return [
             ["parties", "valid?", "p1", "", "", "", "Totals:", "", "", "", "", "", "Totals:", ""],
             ["", "", "", "", "", "", "losts", "deaths", "", "", "", "", "losts", "deaths"],
-            ["Party", "Met", "Type 1", "Type 2", "Pokémon", "Nickname", "Lost", "Dead",
-                "Type 1", "Type 2", "Pokémon", "Nickname", "Lost", "Dead"]
+            [
+                "Party",
+                "Met",
+                "Type 1",
+                "Type 2",
+                "Pokémon",
+                "Nickname",
+                "Lost",
+                "Dead",
+                "Type 1",
+                "Type 2",
+                "Pokémon",
+                "Nickname",
+                "Lost",
+                "Dead",
+            ],
         ] + [sl.get_data() for sl in self.soullinks]
 
 
@@ -143,7 +162,7 @@ def validate_soullocke_team(soullinks: list[Soullink]) -> bool:
         return False
     for i in range(len(soullinks)):
         valid = True
-        sub_team = soullinks[:i] + soullinks[i+1:]
+        sub_team = soullinks[:i] + soullinks[i + 1 :]
         seen_types: list[str] = []
         for sl in sub_team:
             if sl.p1.type1 in seen_types or sl.p2.type1 in seen_types:
@@ -207,8 +226,8 @@ if __name__ == "__main__":
     print(f"{soullocke_data.player1=}")
     print(f"{soullocke_data.player2=}")
     print()
-    print(*soullocke_data.get_active_soullinks(), sep="\n")
-    print()
+    # print(*soullocke_data.get_active_soullinks(), sep="\n")
+    # print()
 
     all_active = soullocke_data.get_active_soullinks()
     all_combos: list[list[Soullink]] = combinations(all_active, 6)
@@ -223,15 +242,26 @@ if __name__ == "__main__":
     # print()
     # print(f"{invalid_combos[0]=}")
     # print()
-    data_out = [[poke for sl in team for poke in (sl.p1.name, sl.p2.name)] for team in valid_combos]
-    print(*data_out[:3], sep="\n")
 
-    # short_data = [[row[5], row[11]] for row in data]
+    data_out = [
+        [
+            sum(
+                dual_score_map[poke]
+                for sl in team
+                for poke in (
+                    sl.p1.get_types(),
+                    sl.p2.get_types(),
+                )
+            )
+        ]
+        + [poke for sl in team for poke in (sl.p1.name, sl.p2.name)]
+        for team in valid_combos
+    ]
+    print(*data_out[:5], sep="\n")
+    print()
 
     worksheet = sh.worksheet("Team Builder")
-    padded_data_out = gspread.utils.fill_gaps(data_out, worksheet.row_count, 12)
-    worksheet.update(padded_data_out, "A:L")
-    print("Updated Team Builder A:L")
-
-    # print(len(combinations(short_data, 6)))
-    # print()
+    padded_data_out = gspread.utils.fill_gaps(data_out, worksheet.row_count, 13)
+    worksheet.update(padded_data_out, "A:M")
+    print("Updated Team Builder A:M")
+    print()
