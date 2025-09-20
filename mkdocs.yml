@@ -1,5 +1,5 @@
 site_name: pokemanager
-site_url: http://pokemanager.readthedocs.io/en/latest/
+site_url: https://ethan-shanahan.github.com/pokemanager/
 nav:
   - Home: index.md
   - About: about.md
