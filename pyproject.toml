@@ -21,7 +21,8 @@ dependencies = [
 ]
 
 [project.scripts]
-foo = "pokemanager.cli:foo"
+pokemanager = "pokemanager.cli:main"
+pkm = "pokemanager.cli:main"
 
 # Build System
 [build-system]
@@ -37,7 +38,6 @@ platforms = ["win-64", "linux-64"]
 # Dependencies
 [tool.pixi.pypi-dependencies]
 pokemanager = { path = ".", editable = true }
-gspread = "*"
 [tool.pixi.dependencies]
 ruff = "*"
 pyright = "*"
