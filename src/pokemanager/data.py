@@ -97,3 +97,15 @@ class Soullink:
             self.p2.lost,
             self.p2.dead,
         ]
+
+
+@dataclass(frozen=True)
+class Box:
+    """A box containing Pokémon."""
+
+    name: str
+    pokemon: list[Pokemon]
+
+    def get_active_pokemons(self) -> list[Pokemon]:
+        """Get all active Pokémon (not lost or dead)."""
+        return [pk for pk in self.pokemon if not (pk.lost or pk.dead)]
