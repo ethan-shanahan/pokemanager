@@ -65,26 +65,25 @@ docs = { no-default-feature = true, features = ["py3", "mkdocs"] } # CI env
 [tool.ruff]
 extend-exclude = [
     "_version.py",
-    "__init__.py"
 ]
 line-length = 120
 [tool.ruff.lint]
 ignore = [
-    'PLR2004',  # Magic value used in comparison
+    "PLR2004",  # Magic value used in comparison
     "D417"      # Documentation for every function parameter
 ]
 select = [
-    'E',    # pydocstyle
-    'W',    # pydocstyle
+    "E",    # pydocstyle
+    "W",    # pydocstyle
     "D",    # pydocstyle
-    'F',    # pyflakes
-    'I',    # isort
-    'N',    # pep8-naming
-    'PLC',  # pylint-convention
-    'PLE',  # pylint-error
-    'PLR',  # pylint-refactor
-    'PLW',  # pylint-warning
-    'RUF'   # ruff
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "PLC",  # pylint-convention
+    "PLE",  # pylint-error
+    "PLR",  # pylint-refactor
+    "PLW",  # pylint-warning
+    "RUF"   # ruff
 ]
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"  # Allow unused variables when underscore-prefixed.
 pydocstyle = { convention = "google" }
