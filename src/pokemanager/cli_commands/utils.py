@@ -6,6 +6,7 @@ from shutil import rmtree
 
 from pokemanager import config_file
 from pokemanager.cli_commands.cli_config import default_config, get_config
+from pokemanager.main import AppData
 
 
 class ConfigAction(Action):
@@ -28,7 +29,7 @@ def clean(_: Namespace):
             break
     if del_data == "y":
         print("Deleting application data...")
-        rmtree(get_config("appdata"), ignore_errors=True)
+        rmtree(AppData.get_appdata(), ignore_errors=True)
     while True:
         del_config = input("Are you sure you want to delete your configuration? (y/N): ").strip().lower() or "n"
         if del_config in ("y", "n"):
@@ -46,7 +47,7 @@ def init(_: Namespace):
         print(f"Creating default configuration file at {config_file}")
         config_file.parent.mkdir(parents=True, exist_ok=True)
         default_config()
-    appdata: Path = get_config("appdata")
+    appdata: Path = AppData.get_appdata()
     print(f"Using application data directory at {appdata}")
     appdata.mkdir(parents=True, exist_ok=True)
 

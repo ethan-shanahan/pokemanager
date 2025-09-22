@@ -34,7 +34,7 @@ class AppData:
             print(f"Loading box from {box_file}")
             with box_file.open("rb") as f:
                 box: Box = pkl_load(f)
-                print(f"Loaded box: {box.name} with {len(box.pokemon)} Pokémon")
+                print(f"Loaded box: {box.name} with {len(box.pc)} Pokémon")
                 boxes[box.name] = box
         print(f"Loaded {len(boxes)} boxes.")
 
@@ -48,7 +48,7 @@ class AppData:
         box_file.parent.mkdir(parents=True, exist_ok=True)
         with box_file.open("wb") as f:
             pkl_dump(box, f)
-        print(f"Saved box: {box.name} with {len(box.pokemon)} Pokémon")
+        print(f"Saved box: {box.name} with {len(box.pc)} Pokémon")
 
     @classmethod
     def delete_box(cls, box_name: str) -> None:

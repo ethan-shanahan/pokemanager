@@ -3,23 +3,24 @@
 import re
 import unicodedata
 from typing import Any
+# from itertools import combinations as itercombos
 
 
-def combinations(collection: list[Any], combination_length: int) -> list[list[Any]]:
-    """Generate all combinations of a specified length from the input collection."""
-    if combination_length > len(collection) or combination_length < 1:
-        return []
-    if combination_length == len(collection):
-        return [collection]
-    if combination_length == 1:
-        return [[element] for element in collection]
-    result: list[list[Any]] = []
-    for i in range(len(collection) - combination_length + 1):
-        head: list[Any] = collection[i : i + 1]
-        tail: list[list[Any]] = combinations(collection[i + 1 :], combination_length - 1)
-        for t in tail:
-            result.append(head + t)
-    return result
+# def combinations(collection: list[Any], combination_length: int) -> list[list[Any]]:
+#     """Generate all combinations of a specified length from the input collection."""
+#     if combination_length > len(collection) or combination_length < 1:
+#         return []
+#     if combination_length == len(collection):
+#         return [collection]
+#     if combination_length == 1:
+#         return [[element] for element in collection]
+#     result: list[list[Any]] = []
+#     for i in range(len(collection) - combination_length + 1):
+#         head: list[Any] = collection[i : i + 1]
+#         tail: list[list[Any]] = combinations(collection[i + 1 :], combination_length - 1)
+#         for t in tail:
+#             result.append(head + t)
+#     return result
 
 
 def slugify(value: Any, allow_unicode: bool = False):
@@ -37,3 +38,24 @@ def slugify(value: Any, allow_unicode: bool = False):
         value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
     value = re.sub(r"[^\w\s-]", "", value.lower())
     return re.sub(r"[-\s]+", "-", value).strip("-_")
+
+
+class URL(str):
+    """A string that is validated to be a URL."""
+
+    def __new__(cls, string: str = ""):
+        """Verifies that the provided string is a url."""
+        if string and type(string) is not str:
+            raise TypeError('Unexpected type for URL: "%s"' % type(string))
+        if string and not (string.startswith("http://") or string.startswith("https://")):
+            raise ValueError('Passed string value "%s" is not an "http*://" URL' % (string,))
+
+        return str.__new__(cls, string)
+
+
+if __name__ == "__main__":
+    pks = ["axew", "bibarel", "clefa", "deino", "enamorous", "phanpy"]
+    r = 3
+    print(f"{combinations(pks, r)=}")
+    print()
+    print(f"{list(itercombos(pks, r))=}")

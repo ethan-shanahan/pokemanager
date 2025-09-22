@@ -55,7 +55,8 @@ import argparse
 from pathlib import Path
 
 from pokemanager._version import __version__
-from pokemanager.cli_commands import cli_box, cli_config, cli_fetch, cli_pokemon, utils
+from pokemanager.cli_commands import cli_box, cli_config, cli_pokemon, cli_spreadsheet, utils
+from pokemanager.utils import URL
 
 
 def main():
@@ -90,18 +91,49 @@ def main():
     parser_config_locate = subparsers_config.add_parser("locate", help="locate the config file")
     parser_config_locate.set_defaults(func=cli_config.locate_config_file)
 
-    # fetch subcommand
-    parser_fetch = subparsers.add_parser("fetch", help="fetch a box")
-    parser_fetch.add_argument("google_sheet_url", type=str, help="url to a compatible Google Sheet")
-    parser_fetch.add_argument("box_name", type=str, help="name of the box to save the data to")
-    parser_fetch.add_argument("category", type=str, help="category of the sheet and box")
-    parser_fetch.set_defaults(func=cli_fetch.fetch)
+    # spreadsheet subcommand
+    parser_spreadsheet = subparsers.add_parser("spreadsheet", aliases=["ss"], help="interact with Google Sheets")
+    parser_spreadsheet.set_defaults(func=lambda _: parser_spreadsheet.print_help())  # type: ignore
+    subparsers_spreadsheet = parser_spreadsheet.add_subparsers(help="subcommand help")
+
+    ## fetch subcommand
+    parser_spreadsheet_fetch = subparsers_spreadsheet.add_parser("fetch", help="fetch a box from Google Sheets")
+    parser_spreadsheet_fetch.add_argument(
+        "credentials", type=Path, help="path to google service account credentials json"
+    )
+    parser_spreadsheet_fetch.add_argument("spreadsheet_url", type=URL, help="url to a compatible spreadsheet")
+    parser_spreadsheet_fetch.add_argument(
+        "worksheet_name",
+        type=str,
+        default="Pokémon Tracker",
+        help="name of the worksheet where Pokémon are tracked if changed",
+    )
+    parser_spreadsheet_fetch.add_argument(
+        "category", type=str, choices=["standard", "soullink"], help="category of the sheet and box"
+    )
+    parser_spreadsheet_fetch.add_argument("box_name", type=str, help="name of the box to save the Pokémon to")
+    parser_spreadsheet_fetch.set_defaults(func=cli_spreadsheet.spreadsheet_fetch)
+
+    ## report subcommand
+    parser_spreadsheet_report = subparsers_spreadsheet.add_parser("report", help="report information to Google Sheets")
+    parser_spreadsheet_report.add_argument("box_name", type=str, help="name of the box to report on")
+    parser_spreadsheet_report.add_argument(
+        "worksheet_name",
+        type=str,
+        default="Team Builder",
+        help="name of the worksheet to report to",
+    )
+    parser_spreadsheet_report.set_defaults(func=cli_spreadsheet.spreadsheet_report)
 
     # box subcommand
     parser_box = subparsers.add_parser("box", help="manage boxes")
     parser_box.set_defaults(func=lambda _: parser_box.print_help())  # type: ignore
     subparsers_box = parser_box.add_subparsers(help="subcommand help")
 
+    ## show subcommand
+    parser_box_show = subparsers_box.add_parser("show", help="show information about a box")
+    parser_box_show.add_argument("name", type=str, help="name of the box to show")
+    parser_box_show.set_defaults(func=cli_box.box_show)
     ## list subcommand
     parser_box_list = subparsers_box.add_parser("list", help="list all boxes")
     parser_box_list.set_defaults(func=cli_box.box_list)
