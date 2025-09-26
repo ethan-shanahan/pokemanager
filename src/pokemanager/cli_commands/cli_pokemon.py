@@ -2,6 +2,9 @@
 
 from argparse import Namespace
 
+from pokemanager.data import Box, Pokemon, Soullink
+from pokemanager.main import AppData
+
 
 def pokemon(commands: list[str]):
     """Manage Pokémon."""
@@ -25,9 +28,39 @@ def pokemon_move(commands: Namespace):
     )
 
 
-def pokemon_list(commands: Namespace):
+def pokemon_list(args: Namespace):
     """List all Pokémon in a box."""
-    print(f"Listing all Pokémon in box {commands.box_name}")
+    print(f"Listing all Pokémon in box {args.box_name}")
+    app_data = AppData()
+    if args.box_name not in app_data.boxes:
+        print(f"Box '{args.box_name}' not found.")
+        return
+    for entry in app_data.boxes[args.box_name].pc:
+        print(f"- {entry.name}")
+
+
+def pokemon_show(args: Namespace):
+    """Show information about a Pokémon."""
+    print(f"Showing Pokémon {args.name} in box {args.box_name}")
+    app_data = AppData()
+    if args.box_name not in app_data.boxes:
+        print(f"Box '{args.box_name}' not found.")
+        return
+    for entry in app_data.boxes[args.box_name].pc:
+        if entry.name == args.name:
+            if isinstance(entry, Pokemon):
+                raise NotImplementedError
+            else:
+                print(f"Soullink: {entry.name}")
+                print(f"- {entry.p1.name}:")
+                print(f"  - type1: {entry.p1.type1.name}:")
+                print(f"  - type2: {entry.p1.type2}:")
+                print(f"  - score: {entry.p1.score}:")
+                print(f"- {entry.p2.name}:")
+                print(f"  - type1: {entry.p2.type1.name}:")
+                print(f"  - type2: {entry.p2.type2}:")
+                print(f"  - score: {entry.p2.score}:")
+            break
 
 
 def pokemon_find(commands: Namespace):
