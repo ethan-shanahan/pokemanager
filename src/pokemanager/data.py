@@ -73,6 +73,11 @@ class Soullink:
     met: str
     p1: Soul
     p2: Soul
+    name: str = field(init=False)
+
+    def __post_init__(self) -> None:
+        """Initialise the name of the soullink."""
+        object.__setattr__(self, "name", f"{self.p1.name} & {self.p2.name}")
 
     def is_lost(self) -> bool:
         """Check if either soul is lost."""
@@ -122,7 +127,7 @@ class SoullinkPC(list[Soullink]):
         return SoullinkPC(sl for sl in self if not sl.is_lost_or_dead())
 
     def get_teams(self) -> list["SoullinkPC"]:
-        return [SoullinkPC(team) for team in combinations(self, 3) if SoullinkPC(team).validate_as_team()]
+        return [SoullinkPC(team) for team in combinations(self.get_active(), 6) if SoullinkPC(team).validate_as_team()]
 
     def validate_as_team(self) -> bool:
         if len(self) > 6:
