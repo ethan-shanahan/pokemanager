@@ -1,7 +1,7 @@
 """Fetch a box from a Google Sheet."""
 
 from pathlib import Path
-from typing import Any, Generator, Literal
+from typing import Any, Generator, Literal, get_args
 
 import gspread
 
@@ -71,7 +71,7 @@ def parse_soullink(data: list[list[str]]) -> Generator[Soullink]:
                 name=ln[4],
                 nickname=ln[5],
                 elected_type=ln[2],
-                auxiliary_type=ln[3] if ln[3] in TYPE else None,
+                auxiliary_type=ln[3] if ln[3] in get_args(TYPE) else None,
                 lost=True if ln[6] == "TRUE" else False,
                 dead=True if ln[7] == "TRUE" else False,
             ),
@@ -79,7 +79,7 @@ def parse_soullink(data: list[list[str]]) -> Generator[Soullink]:
                 name=ln[10],
                 nickname=ln[11],
                 elected_type=ln[8],
-                auxiliary_type=ln[9] if ln[9] in TYPE else None,
+                auxiliary_type=ln[9] if ln[9] in get_args(TYPE) else None,
                 lost=True if ln[12] == "TRUE" else False,
                 dead=True if ln[13] == "TRUE" else False,
             ),

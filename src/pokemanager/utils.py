@@ -51,11 +51,3 @@ class URL(str):
             raise ValueError('Passed string value "%s" is not an "http*://" URL' % (string,))
 
         return str.__new__(cls, string)
-
-
-if __name__ == "__main__":
-    pks = ["axew", "bibarel", "clefa", "deino", "enamorous", "phanpy"]
-    r = 3
-    print(f"{combinations(pks, r)=}")
-    print()
-    print(f"{list(itercombos(pks, r))=}")
