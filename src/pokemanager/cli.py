@@ -15,8 +15,10 @@ config [CONFIG_KEY] [CONFIG_VALUE]
     --appdata [PATH]
         "Where the application data is stored."
         default: "~/.local/share/pokemanager/" or "C:\\Users\\<username>\\AppData\\Roaming\\"
-fetch [GOOGLE_SHEET_URL] [CATEGORY] [BOX_NAME]
-    "Fetch box data from Google Sheets."
+spreadsheet
+    fetch [GOOGLE_SHEET_URL] [CATEGORY] [BOX_NAME]
+        "Fetch box data from Google Sheets."
+    report
 box
     list
         "List all boxes."
@@ -194,6 +196,11 @@ def main():
     parser_pokemon_list = subparsers_pokemon.add_parser("list", help="list all Pokémon in a box")
     parser_pokemon_list.add_argument("box_name", type=str, help="name of the box")
     parser_pokemon_list.set_defaults(func=cli_pokemon.pokemon_list)
+    ## show subcommand
+    parser_pokemon_list = subparsers_pokemon.add_parser("show", help="show information about a Pokémon")
+    parser_pokemon_list.add_argument("box_name", type=str, help="name of the box")
+    parser_pokemon_list.add_argument("name", type=str, help="name of the Pokémon")
+    parser_pokemon_list.set_defaults(func=cli_pokemon.pokemon_show)
 
     ## find subcommand
     parser_pokemon_find = subparsers_pokemon.add_parser("find", help="find Pokémon across all boxes based on criteria")
