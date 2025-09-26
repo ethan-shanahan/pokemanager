@@ -91,7 +91,7 @@ GAME_TO_GEN: dict[GAMES, GENS] = {
     "Legends: Arceus": 8,
     "Scarlet": 9,
     "Violet": 9,
-    "The Hiiden Treasure of Area Zero": 9,
+    "The Hidden Treasure of Area Zero": 9,
     "Legends: Z-A": 9,
 }
 
