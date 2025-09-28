@@ -1,26 +1,17 @@
-"""Utility functions for pokemanager."""
+"""Utility functions and classes for the pokemanager package."""
 
-import re
-import unicodedata
-from typing import Any
-# from itertools import combinations as itercombos
+from dataclasses import dataclass
+from itertools import groupby
+from re import sub
+from typing import Any, Iterable, Literal, Mapping, Optional
+from unicodedata import normalize
+
+from gspread import Worksheet, service_account_from_dict
 
 
-# def combinations(collection: list[Any], combination_length: int) -> list[list[Any]]:
-#     """Generate all combinations of a specified length from the input collection."""
-#     if combination_length > len(collection) or combination_length < 1:
-#         return []
-#     if combination_length == len(collection):
-#         return [collection]
-#     if combination_length == 1:
-#         return [[element] for element in collection]
-#     result: list[list[Any]] = []
-#     for i in range(len(collection) - combination_length + 1):
-#         head: list[Any] = collection[i : i + 1]
-#         tail: list[list[Any]] = combinations(collection[i + 1 :], combination_length - 1)
-#         for t in tail:
-#             result.append(head + t)
-#     return result
+def all_equal(iterable: Iterable[Any]):
+    """Returns True if all the elements are equal to each other."""
+    return next((g := groupby(iterable)), True) and not next(g, False)
 
 
 def slugify(value: Any, allow_unicode: bool = False):
@@ -33,11 +24,11 @@ def slugify(value: Any, allow_unicode: bool = False):
     """
     value = str(value)
     if allow_unicode:
-        value = unicodedata.normalize("NFKC", value)
+        value = normalize("NFKC", value)
     else:
-        value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
-    value = re.sub(r"[^\w\s-]", "", value.lower())
-    return re.sub(r"[-\s]+", "-", value).strip("-_")
+        value = normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    value = sub(r"[^\w\s-]", "", value.lower())
+    return sub(r"[-\s]+", "-", value).strip("-_")
 
 
 class URL(str):
@@ -51,3 +42,35 @@ class URL(str):
             raise ValueError('Passed string value "%s" is not an "http*://" URL' % (string,))
 
         return str.__new__(cls, string)
+
+
+@dataclass
+class Database:
+    """A class representing a database connection."""
+
+    credentials: Optional[Mapping[str, Any]] = None
+    spreadsheet_url: Optional[URL] = None
+    worksheet_from: Optional[str] = None
+    worksheet_to: Optional[str] = None
+
+    def get_worksheet(self, from_or_to: Literal["from", "to"], worksheet: Optional[str] = None) -> Worksheet:
+        """Fetch all values from the specified worksheet."""
+        match from_or_to:
+            case "from":
+                if worksheet is None:
+                    worksheet = self.worksheet_from
+            case "to":
+                if worksheet is None:
+                    worksheet = self.worksheet_to
+        if self.credentials is None:
+            raise RuntimeError("Credentials are undefined.")
+        if self.spreadsheet_url is None:
+            raise RuntimeError("Spreadsheet URL is undefined.")
+        if worksheet is None:
+            raise RuntimeError(
+                f"The worksheet to {'read from' if from_or_to == 'from' else 'write to'} must be specified."
+            )
+
+        gspread_connection = service_account_from_dict(self.credentials)
+        spreadsheet = gspread_connection.open_by_url(self.spreadsheet_url)
+        return spreadsheet.worksheet(worksheet)
